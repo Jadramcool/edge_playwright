@@ -1,0 +1,37 @@
+{
+  "name": "浏览器",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:sykb": "playwright test tests/sykb.spec.js --project=user2",
+    "test:sykb:debug": "playwright test tests/sykb.spec.js --project=user2 --debug",
+    "test:sykb:ui": "playwright test tests/sykb.spec.js --project=user2 --ui",
+    "test:baidu": "playwright test tests/baidu.spec.js",
+    "test:baidu:debug": "playwright test tests/baidu.spec.js  --debug",
+    "test:no-vip": "cross-env ENABLE_VIP_OPERATION=false playwright test --project=user1",
+    "test:no-vip:ui": "cross-env ENABLE_VIP_OPERATION=false playwright test --project=user1 --ui",
+    "test:no-vip:debug": "cross-env ENABLE_VIP_OPERATION=false playwright test --project=user1 --debug",
+    "test:vip": "cross-env ENABLE_VIP_OPERATION=true playwright test --project=user1",
+    "test:vip:ui": "cross-env ENABLE_VIP_OPERATION=true playwright test --project=user1 --ui",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:ui": "playwright test --ui",
+    "test:headed-slow": "playwright test --headed --slowMo=1000"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.11.0",
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.15.29",
+    "cross-env": "^7.0.3"
+  },
+  "dependencies": {
+    "mysql2": "^3.14.1"
+  }
+}
+

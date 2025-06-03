@@ -1,0 +1,135 @@
+{
+  "cookies": [
+    {
+      "name": "CRPK_2132_saltkey",
+      "value": "LY43M6M8",
+      "domain": "www.syp4321.com",
+      "path": "/",
+      "expires": 1751375749.417262,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CRPK_2132_lastvisit",
+      "value": "1748780149",
+      "domain": "www.syp4321.com",
+      "path": "/",
+      "expires": 1751375749.417334,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CRPK_2132_sendmail",
+      "value": "1",
+      "domain": "www.syp4321.com",
+      "path": "/",
+      "expires": 1748784051.175126,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CRPK_2132_sid",
+      "value": "uSY2SQ",
+      "domain": "www.syp4321.com",
+      "path": "/",
+      "expires": 1748870160.38376,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CRPK_2132_ulastactivity",
+      "value": "2179UB%2FIj56wDc%2Fw98GTUcilTGhi86UT7fktm9AGtgFV0mMTsLEc",
+      "domain": "www.syp4321.com",
+      "path": "/",
+      "expires": 1780319759.73147,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CRPK_2132_auth",
+      "value": "36e1xe563ZRPbTYhf82c%2B9J39qbxWZ0FmxstsWrp6YcFql7QKtQ7XtKRUh6z%2Fi%2FhFG0V3gvGIh98dvISQBVYdsY7",
+      "domain": "www.syp4321.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CRPK_2132_lastcheckfeed",
+      "value": "2468%7C1748783759",
+      "domain": "www.syp4321.com",
+      "path": "/",
+      "expires": 1780319759.731509,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CRPK_2132_checkfollow",
+      "value": "1",
+      "domain": "www.syp4321.com",
+      "path": "/",
+      "expires": 1748783789.731518,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CRPK_2132_lip",
+      "value": "103.137.247.61%2C1748783553",
+      "domain": "www.syp4321.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CRPK_2132_lastact",
+      "value": "1748783760%09index.php%09",
+      "domain": "www.syp4321.com",
+      "path": "/",
+      "expires": 1748870160.383573,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CRPK_2132_nofavfid",
+      "value": "1",
+      "domain": "www.syp4321.com",
+      "path": "/",
+      "expires": 1780319760.383683,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CRPK_2132_study_nge_extstyle",
+      "value": "auto",
+      "domain": "www.syp4321.com",
+      "path": "/",
+      "expires": 1780319760.383711,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CRPK_2132_study_nge_extstyle_default",
+      "value": "auto",
+      "domain": "www.syp4321.com",
+      "path": "/",
+      "expires": 1780319760.383738,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}
