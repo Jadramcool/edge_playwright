@@ -10,6 +10,7 @@ export default defineConfig({
   reporter: "html",
   use: {
     trace: "on-first-retry",
+    headless: true,
   },
 
   projects: [
@@ -17,8 +18,7 @@ export default defineConfig({
       // 4321pai
       name: "user1",
       use: {
-        ...devices["Desktop Edge"],
-        channel: "msedge",
+        ...devices["Desktop Chrome"],
         storageState: "playwright/.auth/user.json",
       },
     },
@@ -26,8 +26,7 @@ export default defineConfig({
       // sykb
       name: "user2",
       use: {
-        ...devices["Desktop Edge"],
-        channel: "msedge",
+        ...devices["Desktop Chrome"],
         storageState: "playwright/.auth/user2.json",
       },
     },
