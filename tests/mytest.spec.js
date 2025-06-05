@@ -119,7 +119,7 @@ test("authenticate", async ({ page }) => {
   await initDatabase();
 
   // 执行登录操作
-  await page.goto("https://www.syp4321.com/");
+  await page.goto("https://www.4321syp.com/");
 
   // 验证是否已登录（根据实际页面调整）
   await expect(page.locator(".vwmy"))
@@ -139,7 +139,7 @@ test("authenticate", async ({ page }) => {
         }
       }
       for (const moduleName of allModules) {
-        if (moduleName === "象人原创") {
+        if (moduleName === "FSS工作室") {
           tag = true;
         }
         if (!tag) {

@@ -82,4 +82,4 @@ const loadData = async (folderPath) => {
   }
 };
 
-loadData("C:/新建文件夹/test");
+loadData("C:/新建文件夹/0603");

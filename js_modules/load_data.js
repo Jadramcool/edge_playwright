@@ -141,7 +141,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
 
   // 示例4: 自定义输出路径和字段
   await exportKbData({
-    date: "2025-06-02",
+    date: "2025-06-03",
     outputPath: "./exports/kbData_2025-06-02.txt",
     field: "download_info",
   });

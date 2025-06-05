@@ -43,13 +43,13 @@ async function createLinkWithCodeColumn() {
     for (const { name, type, default: defaultValue } of columnsToCreate) {
       // 检查字段是否存在
       const [columns] = await connection.execute(`
-        SHOW COLUMNS FROM kb LIKE '${name}'
+        SHOW COLUMNS FROM sykb LIKE '${name}'
       `);
 
       if (columns.length === 0) {
         // 拼接SQL语句（注意字符串转义，避免SQL注入风险）
         const sql = `
-          ALTER TABLE kb 
+          ALTER TABLE sykb 
           ADD COLUMN ${name} ${type} DEFAULT ${defaultValue}
         `;
         await connection.execute(sql);
@@ -73,7 +73,7 @@ async function processAndUpdateData() {
     // 查询baidu_link_href和code字段
     const [rows] = await connection.execute(`
       SELECT id, baidu_link_href, baidu_code 
-      FROM kb 
+      FROM sykb 
       WHERE baidu_link_href IS NOT NULL AND baidu_code IS NOT NULL AND link_with_code IS NULL
     `);
 
@@ -85,7 +85,7 @@ async function processAndUpdateData() {
       const linkWithCode = `${baidu_link_href}?pwd=${baidu_code}`;
       // 更新link_with_code字段
       await connection.execute(
-        `UPDATE kb SET link_with_code = ? WHERE id = ?`,
+        `UPDATE sykb SET link_with_code = ? WHERE id = ?`,
         [linkWithCode, id]
       );
     }
@@ -114,51 +114,112 @@ test("processBaiduLinkAndCode", async ({ page }) => {
 
   // 然后，从数据库中获取link_with_code字段的数据
   const [kbData] = await connection.execute(
-    "SELECT id,link_with_code FROM kb WHERE status = 1"
+    "SELECT id,link_with_code FROM sykb WHERE status = 1 AND file_name IS NULL"
   );
+
+  // 获取总数并初始化进度计数器
+  const totalCount = kbData.length;
+  let completedCount = 0;
+  let successCount = 0;
+  let failedCount = 0;
+
+  console.log(`\n=== 开始处理百度网盘链接 ===`);
+  console.log(`总共需要处理: ${totalCount} 个链接`);
+  console.log(`==========================================\n`);
 
   for (const item of kbData) {
     const { id, link_with_code } = item;
+    completedCount++;
+    const remainingCount = totalCount - completedCount;
 
-    await page.goto(link_with_code);
-    await page.waitForLoadState("networkidle");
+    console.log(`\n[${completedCount}/${totalCount}] 正在处理链接 ID: ${id}`);
+    console.log(
+      `进度: ${((completedCount / totalCount) * 100).toFixed(
+        1
+      )}% | 剩余: ${remainingCount} 个`
+    );
+    console.log(`链接: ${link_with_code}`);
 
-    const firstTitle = await page.title();
+    try {
+      await page.goto(link_with_code);
+      await page.waitForLoadState("networkidle");
 
-    if (firstTitle === "百度网盘-链接不存在") {
-      console.log("链接不存在");
-      await connection.execute(`UPDATE kb SET status =? WHERE id =?`, [0, id]);
-    } else {
-      const getDataBtn = page.getByText("提取文件");
-      const btnCount = await getDataBtn.count();
-      if (btnCount > 0) {
-        await getDataBtn.click();
-        // 等待页面导航完成
-        await page.waitForLoadState("networkidle");
-        await page.waitForTimeout(3000);
-      }
+      const firstTitle = await page.title();
 
-      await page.waitForSelector('span:has-text("保存到网盘")', {
-        timeout: 10000,
-      });
-
-      try {
-        // 获取浏览器标签名
-        const tabName = await page.title();
-        const resultTitle = tabName.split(".")[0]; // 按.分割，取第一个元素
-        console.log(resultTitle); // 输出：GGJ0065.7z
-        // 将resultTitle保存到数据库中，字段名叫file_name
-        await connection.execute(`UPDATE kb SET file_name =? WHERE id =?`, [
-          resultTitle,
+      if (firstTitle === "百度网盘-链接不存在") {
+        console.log(
+          `❌ [${completedCount}/${totalCount}] 链接不存在，已标记为无效`
+        );
+        await connection.execute(`UPDATE sykb SET status =? WHERE id =?`, [
+          0,
           id,
         ]);
-      } catch (error) {
-        console.log(`获取页面标题失败: ${error.message}`);
-        // 如果获取标题失败，可以尝试其他方式或跳过
+        failedCount++;
+      } else {
+        const getDataBtn = page.getByText("提取文件");
+        const btnCount = await getDataBtn.count();
+        if (btnCount > 0) {
+          console.log(
+            `🔄 [${completedCount}/${totalCount}] 点击提取文件按钮...`
+          );
+          await getDataBtn.click();
+          // 等待页面导航完成
+          await page.waitForLoadState("networkidle");
+          // await page.waitForTimeout(3000);
+        }
+
+        await page.waitForSelector('span:has-text("保存到网盘")', {
+          timeout: 10000,
+        });
+
+        try {
+          // 获取浏览器标签名
+          const tabName = await page.title();
+          const resultTitle = tabName.split(".")[0]; // 按.分割，取第一个元素
+          console.log(
+            `✅ [${completedCount}/${totalCount}] 成功获取文件名: ${resultTitle}`
+          );
+          // 将resultTitle保存到数据库中，字段名叫file_name
+          await connection.execute(`UPDATE sykb SET file_name =? WHERE id =?`, [
+            resultTitle,
+            id,
+          ]);
+          successCount++;
+        } catch (error) {
+          console.log(
+            `⚠️ [${completedCount}/${totalCount}] 获取页面标题失败: ${error.message}`
+          );
+          failedCount++;
+          // 如果获取标题失败，可以尝试其他方式或跳过
+        }
       }
+    } catch (error) {
+      console.log(
+        `❌ [${completedCount}/${totalCount}] 处理链接时发生错误: ${error.message}`
+      );
+      failedCount++;
     }
+
+    // 显示当前统计信息
+    console.log(
+      `📊 当前统计 - 成功: ${successCount} | 失败: ${failedCount} | 剩余: ${remainingCount}`
+    );
+    console.log(`${"-".repeat(50)}`);
+
     // 不需要关闭页面，让下一次循环重用同一个页面
   }
+
+  // 最终统计信息
+  console.log(`\n=== 处理完成 ===`);
+  console.log(`总计处理: ${totalCount} 个链接`);
+  console.log(`成功处理: ${successCount} 个`);
+  console.log(`失败处理: ${failedCount} 个`);
+  console.log(
+    `成功率: ${
+      totalCount > 0 ? ((successCount / totalCount) * 100).toFixed(1) : 0
+    }%`
+  );
+  console.log(`==========================================\n`);
 });
 
 // 在测试结束后关闭数据库连接
