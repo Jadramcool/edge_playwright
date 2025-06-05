@@ -165,7 +165,7 @@ test("processBaiduLinkAndCode", async ({ page }) => {
           await getDataBtn.click();
           // 等待页面导航完成
           await page.waitForLoadState("networkidle");
-          // await page.waitForTimeout(3000);
+          await page.waitForTimeout(3000);
         }
 
         await page.waitForSelector('span:has-text("保存到网盘")', {

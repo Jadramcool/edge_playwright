@@ -32,6 +32,7 @@ export async function exportKbData(options = {}) {
   } = options;
 
   let connection;
+  const table = options.table || "kb"; // 默认为kb表，可根据需要修改为其他表名，如kb_backu
 
   try {
     // 连接数据库
@@ -39,7 +40,7 @@ export async function exportKbData(options = {}) {
     console.log("数据库连接成功");
 
     // 构建查询条件
-    let whereClause = "WHERE 1=1";
+    let whereClause = "WHERE 1=1 AND status = 1";
     const queryParams = [];
 
     if (date) {
@@ -61,7 +62,7 @@ export async function exportKbData(options = {}) {
     }
 
     // 构建完整的SQL查询
-    const sql = `SELECT ${field}, created_at FROM kb ${whereClause} ORDER BY created_at DESC`;
+    const sql = `SELECT ${field}, created_at FROM ${table} ${whereClause} ORDER BY created_at DESC`;
     console.log("执行SQL:", sql);
     console.log("查询参数:", queryParams);
 
