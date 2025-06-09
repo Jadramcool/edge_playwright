@@ -201,7 +201,6 @@ async function withRetry(action, description, page, retries = MAX_RETRIES) {
   }
 }
 
-let tag = false;
 let saveCount = 0;
 
 test("authenticate", async ({ page, context }) => {

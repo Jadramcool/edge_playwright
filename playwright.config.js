@@ -40,6 +40,7 @@ export default defineConfig({
       use: {
         ...devices["Desktop Edge"],
         channel: "msedge",
+        // storageState: "playwright/.auth/baidu.json",
       },
     },
   ],

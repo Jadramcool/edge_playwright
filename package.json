@@ -11,6 +11,7 @@
     "test:sykb:ui": "playwright test tests/sykb.spec.js --project=user2 --ui",
     "test:baidu": "playwright test tests/baidu.spec.js --project=baidu",
     "test:baidu:debug": "playwright test tests/baidu.spec.js --project=baidu --debug",
+    "test:baidu:zip:debug": "playwright test tests/baiduZip.spec.js --project=baidu --debug",
     "test:no-vip": "cross-env ENABLE_VIP_OPERATION=false playwright test --project=user1",
     "test:no-vip:ui": "cross-env ENABLE_VIP_OPERATION=false playwright test --project=user1 --ui",
     "test:no-vip:debug": "cross-env ENABLE_VIP_OPERATION=false playwright test --project=user1 --debug",
@@ -32,6 +33,7 @@
     "cross-env": "^7.0.3"
   },
   "dependencies": {
+    "axios": "^1.9.0",
     "mysql2": "^3.14.1"
   }
 }
